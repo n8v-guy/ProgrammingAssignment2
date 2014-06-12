@@ -1,15 +1,32 @@
-## Put comments here that give an overall description of what your
-## functions do
+## Identically to example of caching the mean of a vector
+## these functions do constuct matrix wrapper which allows 
+## to get cached version of a inverse matrix
 
-## Write a short comment describing this function
-
+## Makes a matrix wrapper for incapsulating its operations
 makeCacheMatrix <- function(x = matrix()) {
-
+  inv <- NULL
+  set <- function(y) {
+    x <<- y
+    inv <<- NULL
+  }
+  get <- function() x
+  setinv <- function(inverted) inv <<- inverted
+  getinv <- function() inv
+  list(set = set, get = get,
+       setinv = setinv,
+       getinv = getinv)
 }
 
 
-## Write a short comment describing this function
-
+## Returns either cached value of inversed matrix or evaluates it 
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+  inv <- x$getinv()
+  if(!is.null(inv)) {
+    message("getting cached data")
+    return(inv)
+  }
+  data <- x$get()
+  inv <- solve(data, ...)
+  x$setinv(inv)
+  inv
 }
