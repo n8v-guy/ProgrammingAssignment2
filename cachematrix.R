@@ -30,3 +30,24 @@ cacheSolve <- function(x, ...) {
   x$setinv(inv)
   inv
 }
+
+## Just a test for an implementation
+testMatrixConv <- function() {
+  message("Creating empty matrix wrapper")
+  matrix <- makeCacheMatrix()
+  print(matrix$get())
+  
+  message("Set its data to rnorm-gererated array 6x6")
+  matrix$set( matrix(stats::rnorm(36), nrow=6, ncol=6) )
+  print(matrix$get())
+  
+  message("First call to cacheSolve should evaluate")
+  solved <- cacheSolve(matrix)
+  print(solved)
+  
+  message("Second call to cacheSolve should use cached result & print message about that")
+  solved <- cacheSolve(matrix)
+  print(solved)
+  
+  message("Yay, it's done!")
+}
